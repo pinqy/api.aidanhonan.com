@@ -20,6 +20,8 @@ jobs:
         run: npm ci
       - name: Build and test
         run: npm run build
+      - name: Generate server restart signal
+        run: mkdir tmp && cd tmp && touch restart.txt && cd ..
         
   deploy-beta:
     name: Deploy Beta Backend

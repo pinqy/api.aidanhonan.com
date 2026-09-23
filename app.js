@@ -13,7 +13,7 @@ app.use(cors({
 }));
 
 app.get('/', (req, res) => {
-  res.json('Hello, world! NodeJS -- autodeployed');
+  res.json('Hello, world! NodeJS -- autodeployed2');
 });
 
 app.listen(port, hostname, () => {
