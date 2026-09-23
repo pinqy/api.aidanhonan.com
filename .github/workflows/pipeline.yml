@@ -36,7 +36,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           server-dir: test/
-          dry-run: true
+          dry-run: false
 
   beta-approval-workflow:
     name: Beta Approval Workflow
@@ -53,8 +53,17 @@ jobs:
     needs: beta-approval-workflow
     runs-on: ubuntu-latest
     steps:
-      - name: Prod Deploy Placeholder
-        run: echo "Placeholder for Prod Deployment"
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Deploy to cPanel
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ftps.aidanhonan.com
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          server-dir: prod/
+          dry-run: true
   
   prod-approval-workflow:
     name: Prod Approval Workflow
