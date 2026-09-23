@@ -21,7 +21,14 @@ jobs:
       - name: Build and test
         run: npm run build
       - name: Generate server restart signal
-        run: mkdir tmp && cd tmp && touch restart.txt && cd ..
+        run: mkdir tmp && touch tmp/restart.txt
+      - name: Archive build
+        if: success()
+        uses: actions/upload-artifact@v7
+        with:
+          name: deploy_artifact
+          path: ./
+          include-hidden-files: true
         
   deploy-beta:
     name: Deploy Beta Backend
@@ -30,6 +37,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+      - name: Download build
+        uses: actions/download-artifact@v8
+        with:
+          name: deploy_artifact
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
