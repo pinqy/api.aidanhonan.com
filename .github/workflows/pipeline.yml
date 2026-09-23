@@ -1,0 +1,65 @@
+name: api.aidanHonan.com Deployment Pipeline
+
+on: 
+  push:
+    branches:
+      - mainline
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm ci
+      - name: Build and test
+        run: npm run build
+        
+  deploy-beta:
+    name: Deploy Beta Backend
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Deploy to cPanel
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ftps.aidanhonan.com
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          server-dir: test/
+          dry-run: true
+
+  beta-approval-workflow:
+    name: Beta Approval Workflow
+    needs: deploy-beta
+    runs-on: ubuntu-latest
+    steps:
+      - name: Beta Integ Test Placeholder
+        run: echo "Placeholder for Beta Integ Tests"
+      - name: Manual Approval PlaceHolder
+        run: echo "See link to set up - https://github.com/marketplace/actions/manual-workflow-approval"
+
+  deploy-prod:
+    name: Deploy Prod Backend
+    needs: beta-approval-workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prod Deploy Placeholder
+        run: echo "Placeholder for Prod Deployment"
+  
+  prod-approval-workflow:
+    name: Prod Approval Workflow
+    needs: deploy-prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prod Integ Test Placeholder
+        run: echo "Placeholder for Prod Integ Tests"
