@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run format",
+    "format": "npx eslint --fix .",
     "server": "nodemon run app.js"
   },
   "keywords": [],
@@ -14,5 +16,10 @@
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0"
   }
 }
