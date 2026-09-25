@@ -28,10 +28,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Download build
-        uses: actions/download-artifact@v8
-        with:
-          name: deploy_artifact
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
