@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run format",
+    "build": "npm install && npm run format",
     "format": "npx eslint --fix .",
     "server": "nodemon run app.js"
   },
