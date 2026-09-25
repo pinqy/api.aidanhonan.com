@@ -20,15 +20,6 @@ jobs:
         run: npm ci
       - name: Build and test
         run: npm run build
-      - name: Generate server restart signal
-        run: mkdir tmp && touch tmp/restart.txt
-      - name: Archive build
-        if: success()
-        uses: actions/upload-artifact@v7
-        with:
-          name: deploy_artifact
-          path: ./
-          include-hidden-files: true
         
   deploy-beta:
     name: Deploy Beta Backend
@@ -50,6 +41,26 @@ jobs:
           protocol: ftps
           server-dir: test/
           dry-run: false
+      - name: Restart Node.JS App
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            echo "Activating virtual environment..."
+            source ~/nodevenv/public_api/test/20/bin/activate
+
+            echo "Navigating to app directory..."
+            cd ~/public_api/test
+
+            echo "Installing dependencies..."
+            npm ci
+
+            echo "Restarting Node.js app..."
+            mkdir -p tmp && touch tmp/restart.txt
+
+            echo "Application deployed and restarted successfully!"
 
   beta-approval-workflow:
     name: Beta Approval Workflow
