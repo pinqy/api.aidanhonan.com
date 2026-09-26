@@ -13,11 +13,11 @@ app.use(cors({
 }));
 
 app.get('/', (req, res) => {
-  res.json('Hello, world! NodeJS -- autodeployed3');
+  res.json('Hello, world! NodeJS -- autodeployed4');
 });
 
 app.post('/test', (req, res) => {
-  res.json('Hello, world! NodeJS -- /test POST');
+  res.json('Hello, world! NodeJS -- /test POST 2');
 });
 
 app.listen(port, hostname, () => {
