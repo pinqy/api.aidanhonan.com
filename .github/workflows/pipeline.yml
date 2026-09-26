@@ -20,6 +20,13 @@ jobs:
         run: npm ci
       - name: Build and test
         run: npm run build
+      - name: Archive build
+        if: success()
+        uses: actions/upload-artifact@v7
+        with:
+          name: deploy_dist
+          path: dist
+          include-hidden-files: true
         
   deploy-beta:
     name: Deploy Beta Backend
@@ -28,6 +35,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+      - name: Download build
+        uses: actions/download-artifact@v8
+        with:
+          name: deploy_dist
+          path: deploy_dist
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
@@ -35,8 +47,9 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
+          local-dir: ./deploy_dist/
           server-dir: test/
-          dry-run: false
+          dry-run: true
       - name: Restart Node.JS App
         uses: appleboy/ssh-action@master
         with:
@@ -75,6 +88,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+      - name: Download build
+        uses: actions/download-artifact@v8
+        with:
+          name: deploy_dist
+          path: deploy_dist
       - name: Deploy to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
@@ -82,8 +100,9 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
+          local-dir: ./deploy_dist/
           server-dir: prod/
-          dry-run: false
+          dry-run: true
       - name: Restart Node.JS App
         uses: appleboy/ssh-action@master
         with:

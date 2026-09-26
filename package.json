@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm install && npm run format",
+    "build": "npm install && npm run format && tsc && npm run copy-config && npm run test",
+    "clean": "rm -rf node_modules && rm -rf dist",
+    "copy-config": "cp -t dist package.json package-lock.json",
     "format": "npx eslint --fix .",
-    "server": "nodemon run app.js"
+    "server": "node dist/app.js",
+    "start": "tsc-watch --onSuccess \"node dist/app.js\"",
+    "test": "echo \"No tests specified\""
   },
   "keywords": [],
   "author": "",
@@ -19,7 +22,13 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.3",
     "eslint": "^10.11.0",
-    "globals": "^17.12.0"
+    "globals": "^17.12.0",
+    "ts-node": "^10.9.2",
+    "tsc-watch": "^7.2.1",
+    "typescript": "^7.0.2"
   }
 }
