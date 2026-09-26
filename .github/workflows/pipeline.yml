@@ -83,7 +83,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           server-dir: prod/
-          dry-run: true
+          dry-run: false
   
   prod-approval-workflow:
     name: Prod Approval Workflow

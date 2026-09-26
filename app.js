@@ -16,6 +16,10 @@ app.get('/', (req, res) => {
   res.json('Hello, world! NodeJS -- autodeployed3');
 });
 
+app.post('/test', (req, res) => {
+  res.json('Hello, world! NodeJS -- /test POST');
+});
+
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}`);
 });
