@@ -84,6 +84,26 @@ jobs:
           protocol: ftps
           server-dir: prod/
           dry-run: false
+      - name: Restart Node.JS App
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            echo "Activating virtual environment..."
+            source ~/nodevenv/public_api/prod/20/bin/activate
+
+            echo "Navigating to app directory..."
+            cd ~/public_api/prod
+
+            echo "Installing dependencies..."
+            npm ci
+
+            echo "Restarting Node.js app..."
+            mkdir -p tmp && touch tmp/restart.txt
+
+            echo "Application deployed and restarted successfully!"
   
   prod-approval-workflow:
     name: Prod Approval Workflow
