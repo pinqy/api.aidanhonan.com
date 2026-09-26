@@ -49,7 +49,7 @@ jobs:
           protocol: ftps
           local-dir: ./deploy_dist/
           server-dir: test/
-          dry-run: true
+          dry-run: false
       - name: Restart Node.JS App
         uses: appleboy/ssh-action@master
         with:
@@ -102,7 +102,7 @@ jobs:
           protocol: ftps
           local-dir: ./deploy_dist/
           server-dir: prod/
-          dry-run: true
+          dry-run: false
       - name: Restart Node.JS App
         uses: appleboy/ssh-action@master
         with:
